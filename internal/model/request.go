@@ -3,9 +3,10 @@ package model
 import "task-api/internal/constant"
 
 type RequestItem struct {
-	Title    string  `binding:"required"`
-	Price    float64 `binding:"required,gte=10"`
-	Quantity uint
+	Title string `binding:"required"`
+	// Add      float64 `binding:"required,gte=10"`
+	Amount   uint `binding:"required"`
+	Quantity uint `binding:"required"`
 }
 type RequestFindItem struct {
 	// Statuses []constant.ItemStatus `form:"status[]"`

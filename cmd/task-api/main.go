@@ -55,15 +55,15 @@ func main() {
 	// Setup CORS middleware before starting the server
 	config := cors.DefaultConfig()
 	// frontend URL
-	config.AllowOrigins = []string{"http://localhost:8008"}
+	config.AllowOrigins = []string{"http://localhost:8008", "http://localhost:3000"}
 	r.Use(cors.New(config))
 
 	// Define your routes here
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "Welcome to the API!",
-		})
-	})
+	// r.GET("/", func(c *gin.Context) {
+	// 	c.JSON(200, gin.H{
+	// 		"message": "Welcome to the API!",
+	// 	})
+	// })
 
 	r.Use(mylog.Logger())
 	// r.Use(mylog.Logger2())
@@ -96,6 +96,7 @@ func main() {
 
 	userController := user.NewController(db, os.Getenv("JWT_SECRET"))
 	r.POST("/login", userController.Login)
+	r.GET("", controller.FindItems)
 
 	items := r.Group("/items")
 	// items.Use(mylog.Logger2())

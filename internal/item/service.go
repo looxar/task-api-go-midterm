@@ -19,7 +19,7 @@ func NewService(db *gorm.DB) Service {
 func (service Service) Create(req model.RequestItem) (model.Item, error) {
 	item := model.Item{
 		Title:    req.Title,
-		Price:    req.Price,
+		Amount:    req.Amount,
 		Quantity: req.Quantity,
 		Status:   constant.ItemPendingStatus,
 	}
@@ -62,7 +62,7 @@ func (s *Service) UpdateItem(id uint, updatedItem model.Item) (model.Item, error
 
 	// Update the item's fields with the new data
 	item.Title = updatedItem.Title
-	item.Price = updatedItem.Price
+	item.Amount = updatedItem.Amount
 	item.Quantity = updatedItem.Quantity
 	item.Status = updatedItem.Status
 

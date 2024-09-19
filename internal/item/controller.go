@@ -163,6 +163,15 @@ func (controller *Controller) UpdateItem(c *gin.Context) {
 		return
 	}
 
+	// Fetch the existing item from the database
+	existingItem, err := controller.Service.FindItemByID(uint(id))
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"message": "Item not found",
+		})
+		return
+	}
+
 	// Bind the incoming JSON to the model
 	var item model.Item
 	if err := c.BindJSON(&item); err != nil {
@@ -171,6 +180,17 @@ func (controller *Controller) UpdateItem(c *gin.Context) {
 		})
 		return
 	}
+
+	// Keep the existing status if not provided in the incoming request
+	if item.Status == "" {
+		item.Status = existingItem.Status
+	}
+
+		// Merge the existing item's fields with the new data
+		existingItem.Title = item.Title
+		existingItem.Amount = item.Amount
+		existingItem.Quantity = item.Quantity
+		existingItem.Status = item.Status // This will either be unchanged or updated based on the incoming request
 
 	// Update the item using the service
 	updatedItem, err := controller.Service.UpdateItem(uint(id), item)
@@ -208,4 +228,3 @@ func (controller *Controller) DeleteItem(c *gin.Context) {
 		"message": "Item deleted successfully",
 	})
 }
-
