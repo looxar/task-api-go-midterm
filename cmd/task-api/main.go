@@ -105,6 +105,7 @@ func main() {
 	// 	{"admin", "secret"},
 	// 	{"admin2", "1234"},
 	// }))
+
 	items.Use(auth.Guard(os.Getenv("JWT_SECRET")))
 	{
 		items.POST("", controller.CreateItem)
@@ -114,6 +115,14 @@ func main() {
 		items.PUT("/:id", controller.UpdateItem)    // Full update of an item by ID
 		items.DELETE("/:id", controller.DeleteItem) // Delete an item by ID
 	}
+
+	// items.POST("", controller.CreateItem)
+	// items.GET("", controller.FindItems)
+	// items.PATCH("/:id", controller.UpdateItemStatus)
+	// items.GET("/:id", controller.GetItemByID)
+	// items.PUT("/:id", controller.UpdateItem)    // Full update of an item by ID
+	// items.DELETE("/:id", controller.DeleteItem) // Delete an item by ID
+
 	// Start the server on port 2024
 	r.Run(":2024")
 	// items := r.Group("/items")
